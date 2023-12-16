@@ -30,6 +30,24 @@ class Converter():
                 color_name = color
         self.color_dict[(r, g, b)] = color_name
         return color_name
+    def convert(self, img, option, custom=None):
+        w, h = img.shape[:2]
+        changed = img.copy()
+        color_pallet = []
+        if option != "Custom":
+            color_pallet = self.read_csv("./color/"+option+".csv")
+        else:
+            if custom == [] or custom == None:
+                return
+            color_pallet = custom
+
+        for height in range(h):
+            for width in range(w):
+                color = self.color_change(img[width][height][0], img[width][height][1], img[width][height][2], color_pallet)
+                changed[width][height][0] = color[0]  
+                changed[width][height][1] = color[1]  
+                changed[width][height][2] = color[2] 
+        return changed
 
 
     
