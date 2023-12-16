@@ -18,6 +18,18 @@ class Converter():
             reader = csv.reader(f)
             color = [[int(v) for v in row] for row in reader]
             return color
+    def color_change(self, r, g, b, color_pallet):
+        if (r, g, b) in self.color_dict:
+            return self.color_dict[(r, g, b)]
+        min_distance = float('inf')
+        color_name = None
+        for color in color_pallet:
+            distance = (int(r) - color[0]) ** 2 + (int(g) - color[1]) ** 2 + (int(b) - color[2]) ** 2
+            if distance < min_distance:
+                min_distance = distance
+                color_name = color
+        self.color_dict[(r, g, b)] = color_name
+        return color_name
 
 
     
