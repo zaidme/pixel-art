@@ -13,6 +13,11 @@ class Converter():
     def mosaic(self, img, ratio=0.1):
         small = cv2.resize(img, None, fx=ratio, fy=ratio, interpolation=cv2.INTER_NEAREST)
         return cv2.resize(small, img.shape[:2][::-1], interpolation=cv2.INTER_NEAREST)
+    def read_csv(self, path):
+        with open(path) as f:
+            reader = csv.reader(f)
+            color = [[int(v) for v in row] for row in reader]
+            return color
 
 
     
