@@ -39,3 +39,5 @@ if __name__ == "__main__":
         img = Image.open(web.upload)
         img = np.array(img)
         web.original.image(web.upload)
+        img = converter.mosaic(img)
+        web.converted.image(img)
