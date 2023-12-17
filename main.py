@@ -66,11 +66,16 @@ class Web():
         )
         st.title("PixelArt-Converter")
         self.upload = st.file_uploader("Upload Image", type=['jpg', 'jpeg', 'png', 'webp'])
-        self.color = st.selectbox("Select color palette", ('cold', 'gold', 'pale', 'pastel', 'pyxel', 'rainbow', 'warm', 'Custom Palette'))
+        self.color = st.selectbox("Select color palette", ('palette','cold', 'gold', 'pale', 'pastel', 'pyxel', 'rainbow', 'warm', 'Custom Palette'))
         self.original, self.converted = st.columns(2)
         self.original.title("original img")
         self.converted.title("convert img")
         self.ratio = st.slider('Select ratio', 0.01, 1.0, 0.3, 0.01) #params: label, min, max, default, and step
+        self.more_options()
+        
+    def more_options(self):
+        with st.expander("More Options", True):
+            self.no_convert = st.checkbox('no color convert')
 if __name__ == "__main__":
     web = Web()
     converter = Converter()
@@ -79,5 +84,6 @@ if __name__ == "__main__":
         img = np.array(img)
         web.original.image(web.upload)
         img = converter.mosaic(img, web.ratio) #slider will rerender image
-        img = converter.convert(img,web.color) #add palette to image
+        if web.no_convert == False:
+            img = converter.convert(img, web.color) #add palette to image
         web.converted.image(img)
