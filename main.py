@@ -58,6 +58,7 @@ class Web():
 
     def draw_text(self):
         st.set_page_config(
+            
             page_title="Pixelart-Converter",
             page_icon="🖼️",
             layout="centered",
@@ -68,7 +69,7 @@ class Web():
         self.original, self.converted = st.columns(2)
         self.original.title("original img")
         self.converted.title("convert img")
-
+        self.ratio = st.slider('Select ratio', 0.01, 1.0, 0.3, 0.01) #params: label, min, max, default, and step
 if __name__ == "__main__":
     web = Web()
     converter = Converter()
@@ -76,5 +77,6 @@ if __name__ == "__main__":
         img = Image.open(web.upload)
         img = np.array(img)
         web.original.image(web.upload)
-        img = converter.mosaic(img)
+        img = converter.mosaic(img, web.ratio) #slider will rerender image
+        img = converter.convert(img,"palette") #add palette to image
         web.converted.image(img)
