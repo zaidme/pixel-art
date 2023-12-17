@@ -48,7 +48,19 @@ class Converter():
                 changed[width][height][1] = color[1]  
                 changed[width][height][2] = color[2] 
         return changed
+    def decreaseColor(self, img):
+        dst = img.copy()
 
+        idx = np.where((0 <= img) & (64 > img))
+        dst[idx] = 32
+        idx = np.where((64 <= img) & (128 > img))
+        dst[idx] = 96
+        idx = np.where((128 <= img) & (192 > img))
+        dst[idx] = 160
+        idx = np.where((192 <= img) & (256 > img))
+        dst[idx] = 224
+
+        return dst
 
     
 
@@ -76,6 +88,7 @@ class Web():
     def more_options(self):
         with st.expander("More Options", True):
             self.no_convert = st.checkbox('no color convert')
+            self.decreaseColor = st.checkbox("decrease color")
 if __name__ == "__main__":
     web = Web()
     converter = Converter()
@@ -86,4 +99,6 @@ if __name__ == "__main__":
         img = converter.mosaic(img, web.ratio) #slider will rerender image
         if web.no_convert == False:
             img = converter.convert(img, web.color) #add palette to image
+        if web.decrease:
+            img = converter.decreaseColor(img) # color decreasing
         web.converted.image(img)
