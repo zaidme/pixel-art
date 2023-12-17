@@ -87,8 +87,8 @@ class Web():
         
     def more_options(self):
         with st.expander("More Options", True):
-            self.no_convert = st.checkbox('no color convert')
-            self.decreaseColor = st.checkbox("decrease color")
+            self.no_convert = st.checkbox('Nullify Palette')
+            self.decreaseColor = st.checkbox("Decrease Color range per pixel")
 if __name__ == "__main__":
     web = Web()
     converter = Converter()
@@ -99,6 +99,6 @@ if __name__ == "__main__":
         img = converter.mosaic(img, web.ratio) #slider will rerender image
         if web.no_convert == False:
             img = converter.convert(img, web.color) #add palette to image
-        if web.decrease:
+        if web.decreaseColor:
             img = converter.decreaseColor(img) # color decreasing
         web.converted.image(img)
